@@ -1,6 +1,5 @@
 
 version: '2'
-
 services:
   retail:
     build:
@@ -20,8 +19,3 @@ services:
     environment:
       MYSQL_DATABASE: 'sspms'
       MYSQL_ROOT_PASSWORD: 'tenxdev'
-  discovery:
-    image: "tenxtech/discovery"
-    restart: "always"
-    ports:
-      - "8761:8761"

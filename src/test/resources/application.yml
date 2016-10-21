@@ -5,6 +5,10 @@ spring:
     cloud:
         discovery:
             enabled: false
-
+    datasource:
+        url: jdbc:mysql://172.17.0.1:11444/sspms?autoReconnect=true&tinyInt1isBit=false&useSSL=false&zeroDateTimeBehavior=convertToNull&createDatabaseIfNotExist=true
+        username: root
+        password: 'tenxdev'
+        driver-class-name: com.mysql.jdbc.Driver
 server:
    port: 0

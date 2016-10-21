@@ -11,9 +11,6 @@
 management.security.enabled: false
 security.basic.enabled: false
 
-dbhost: 127.0.0.1
-dbport: 11444
-
 server:
   port: 9494
   contextPath: /retail
@@ -23,10 +20,10 @@ server:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://{dbhost}:{dbport}/sspms?autoReconnect=true&tinyInt1isBit=false&useSSL=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://172.17.0.1:11444/sspms?autoReconnect=true&tinyInt1isBit=false&useSSL=false&zeroDateTimeBehavior=convertToNull&createDatabaseIfNotExist=true
     username: root
     password: 'tenxdev'
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
-        ddl-auto: create
+        ddl-auto: validate

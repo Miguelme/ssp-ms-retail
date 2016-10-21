@@ -12,7 +12,7 @@ public class Store {
     @ApiModelProperty(value = "Store Id", required = true, readOnly = true)
     private Long storeId;
 
-    @ApiModelProperty(value = "Name of the store", required = true)
+    @ApiModelProperty(value = "Name of the store", required = true, example = "Store Name")
     @NotBlank
     private String name;
 
