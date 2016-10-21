@@ -69,4 +69,16 @@ public class StoreController {
     public Store findStoreById(@PathVariable("storeId") Long storeId) {
         return storeService.findStoreById(storeId).get();
     }
+
+    @ApiOperation(value = "Delete Store By Id")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "The stores were successfully retrieved"),
+        @ApiResponse(code = 404, message = "Store not found"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.DELETE)
+    public void deleteStoreById(@PathVariable("storeId") Long storeId) {
+        storeService.deleteStoreById(storeId);
+    }
 }

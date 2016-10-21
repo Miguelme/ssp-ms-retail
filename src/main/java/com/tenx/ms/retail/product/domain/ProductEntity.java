@@ -46,7 +46,7 @@ public class ProductEntity {
     @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = true)
     private StockEntity stock;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(targetEntity = OrderProductEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "order_product_id")
     private List<OrderProductEntity> orderProducts;
 }

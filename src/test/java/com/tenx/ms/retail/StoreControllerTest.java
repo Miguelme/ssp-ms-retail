@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -110,5 +111,39 @@ public class StoreControllerTest extends BaseUtilIntegrationTest {
         }
 
     }
+
+    @Test
+    @FlywayTest
+    public void testDeleteStore(){
+        try {
+
+            ResponseEntity<String> storeResponse = createStore(storeValidRequestFile);
+            ResourceCreated<Long> store = mapper.readValue(storeResponse.getBody(), new TypeReference<ResourceCreated<Long>>() {
+            });
+            ResponseEntity<String> productResponse = addProduct(productValidRequestFile, store.getId());
+            ResourceCreated<Long> product = mapper.readValue(productResponse.getBody(), new TypeReference<ResourceCreated<Long>>() {
+            });
+            addStock(stockValidRequestFile, store.getId(), product.getId());
+            ResponseEntity<String> responseDelete = getStringResponse(String.format(STORE_REQUEST_API_URL, getBasePath()) + "/" + store.getId() , null, HttpMethod.DELETE);
+            assertEquals(String.format("HTTP Status code incorrect %s", responseDelete.getBody()), HttpStatus.OK, responseDelete.getStatusCode());
+            ResponseEntity<String> responseGet = getStringResponse(String.format(STORE_REQUEST_API_URL, getBasePath()) + "/" + store.getId() , null, HttpMethod.GET);
+            assertEquals(String.format("HTTP Status code incorrect %s", responseGet.getBody()), HttpStatus.NOT_FOUND, responseGet.getStatusCode());
+            ResponseEntity<String> responseProduct = getStringResponse(String.format(PRODUCT_REQUEST_API_URL, getBasePath(), product.getId()) , null, HttpMethod.GET);
+            assertEquals(String.format("HTTP Status code incorrect %s", responseProduct.getBody()), HttpStatus.NOT_FOUND, responseProduct.getStatusCode());
+
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    @Test
+    @FlywayTest
+    public void testDeleteStoreNotFound(){
+
+        ResponseEntity<String> responseDelete = getStringResponse(String.format(STORE_REQUEST_API_URL, getBasePath()) + "/" + 30L , null, HttpMethod.DELETE);
+        assertEquals(String.format("HTTP Status code incorrect %s", responseDelete.getBody()), HttpStatus.NOT_FOUND, responseDelete.getStatusCode());
+    }
+
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -39,5 +40,12 @@ public class StoreService {
         }
 
         return storeEntities.stream().map(STORECONVERTER::toT1).collect(Collectors.toList());
+    }
+
+    public void deleteStoreById(Long storeId) throws NoSuchElementException {
+        if (!storeRepository.findOneByStoreId(storeId).isPresent()) {
+            throw new NoSuchElementException("The store was not found");
+        }
+        storeRepository.delete(storeId);
     }
 }
