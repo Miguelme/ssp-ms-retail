@@ -3,7 +3,6 @@ package com.tenx.ms.retail.order.domain;
 import com.tenx.ms.retail.product.domain.ProductEntity;
 import lombok.Data;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
