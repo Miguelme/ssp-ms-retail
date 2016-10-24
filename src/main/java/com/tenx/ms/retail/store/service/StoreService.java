@@ -43,9 +43,8 @@ public class StoreService {
     }
 
     public void deleteStoreById(Long storeId) throws NoSuchElementException {
-        if (!storeRepository.findOneByStoreId(storeId).isPresent()) {
-            throw new NoSuchElementException("The store was not found");
-        }
+        Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(storeId);
+        storeEntity.orElseThrow( () -> new NoSuchElementException("The store was not found"));
         storeRepository.delete(storeId);
     }
 }

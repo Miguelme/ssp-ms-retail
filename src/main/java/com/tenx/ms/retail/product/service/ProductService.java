@@ -34,36 +34,27 @@ public class ProductService {
 
     @Transactional
     public Long createProduct(Product product) throws NoSuchElementException {
-
         ProductEntity productEntity = PRODUCTCONVERTER.toT2(product);
         Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(product.getStoreId());
+        storeEntity.orElseThrow( () -> new NoSuchElementException("The store was not found"));
+        return saveProduct(productEntity, storeEntity.get());
 
-        if (storeEntity.isPresent()){
-            return saveProduct(productEntity, storeEntity.get());
-        } else {
-            throw new NoSuchElementException("The store was not found");
-        }
     }
 
 
     public List<Product> findProducts(Long storeId){
         Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(storeId);
+        storeEntity.orElseThrow( () -> new NoSuchElementException("The store was not found"));
+        List<ProductEntity> productEntities = productRepository.findByStoreStoreId(storeId);
+        return productEntities.stream().map(PRODUCTCONVERTER::toT1).collect(Collectors.toList());
 
-        if (storeEntity.isPresent()){
-            List<ProductEntity> productEntities = productRepository.findByStoreStoreId(storeId);
-            return productEntities.stream().map(PRODUCTCONVERTER::toT1).collect(Collectors.toList());
-        }else{
-            throw new NoSuchElementException("The store was not found");
-        }
     }
 
     public Optional<Product> findProductByStoreIdAndProductId(Long storeId, Long productId) {
         Optional<Product> productOptional = productRepository.findByStoreStoreIdAndProductId(storeId, productId).map(PRODUCTCONVERTER::toT1);
-        if (productOptional.isPresent()) {
-            return productOptional;
-        } else {
-            throw new NoSuchElementException("The store or the product was not found");
-        }
+        productOptional.orElseThrow( () -> new NoSuchElementException("The store or the product was not found"));
+        return productOptional;
+
     }
 
 }

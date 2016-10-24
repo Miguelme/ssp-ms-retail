@@ -40,9 +40,7 @@ public class OrderService {
     public Order createOrder(Long storeId, Order order) throws NoSuchElementException {
 
         Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(storeId);
-        if (!storeEntity.isPresent()){
-            throw new NoSuchElementException("The store was not found");
-        }
+        storeEntity.orElseThrow( () -> new NoSuchElementException("The store was not found"));
 
         order.setStoreId(storeId);
         order.setStatus(Status.ORDERED);

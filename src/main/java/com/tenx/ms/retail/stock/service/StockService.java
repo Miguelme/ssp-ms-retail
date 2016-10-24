@@ -39,17 +39,11 @@ public class StockService {
 
     @Transactional
     public Long addUpdateProductQuantity(Long storeId, Long productId, Stock stock) throws NoSuchElementException {
-
-
         Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(storeId);
         Optional<ProductEntity> productEntity = productRepository.findOneByProductId(productId);
 
-        if (!storeEntity.isPresent()) {
-            throw new NoSuchElementException("The store was not found");
-        }
-        if (!productEntity.isPresent()) {
-            throw new NoSuchElementException("The product was not found");
-        }
+        storeEntity.orElseThrow( () -> new NoSuchElementException("The store was not found"));
+        productEntity.orElseThrow( () -> new NoSuchElementException("The product was not found"));
 
         return saveStock(stock, productEntity.get(), storeEntity.get());
     }
