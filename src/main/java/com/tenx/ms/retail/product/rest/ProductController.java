@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,7 @@ public class ProductController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResourceCreated<Long> createProduct(@PathVariable("storeId") Long storeId,
                                                @ApiParam(name = "product",
                                                    value="JSON data of the product to be created",

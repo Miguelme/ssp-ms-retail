@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,7 @@ public class StoreController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasRole('NOT_ROLE_ADMIN')")
     public ResourceCreated<Long> createStore(@ApiParam(name = "store",
                                             value="JSON data of the store to be created",
                                             required = true)
@@ -72,12 +74,13 @@ public class StoreController {
 
     @ApiOperation(value = "Delete Store By Id")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "The stores were successfully retrieved"),
+        @ApiResponse(code = 200, message = "The store was successfully deleted"),
         @ApiResponse(code = 404, message = "Store not found"),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteStoreById(@PathVariable("storeId") Long storeId) {
         storeService.deleteStoreById(storeId);
     }

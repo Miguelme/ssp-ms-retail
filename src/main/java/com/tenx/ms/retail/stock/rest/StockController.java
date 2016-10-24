@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,7 @@ public class StockController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{storeId:\\d+}/{productId:\\d+}", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void createProduct(@PathVariable("storeId") Long storeId,
                               @PathVariable("productId") Long productId,
                               @Validated @RequestBody Stock stock) {
