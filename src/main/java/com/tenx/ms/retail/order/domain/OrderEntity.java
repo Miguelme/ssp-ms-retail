@@ -13,9 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,10 +28,8 @@ public class OrderEntity {
     @Column(name="order_status", nullable = false, length = 7)
     private Status status;
 
-    @Column(name = "order_date", columnDefinition = "datetime default current_timestamp",
-        insertable = false, nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
+    @Column(name = "order_date",  nullable = false)
+    private LocalDateTime orderDate;
 
     @Column(name="first_name", nullable = false)
     private String firstName;

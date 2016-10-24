@@ -34,14 +34,8 @@ public class StoreControllerTest extends BaseUtilIntegrationTest {
     @Test
     @FlywayTest
     public void testCreateStore() {
-        try {
-            ResponseEntity<String> response = createStore(storeValidRequestFile);
-            ResourceCreated<Long> responseBody = mapper.readValue(response.getBody(), new TypeReference<ResourceCreated<Long>>() {
-            });
-            assertEquals(String.format("HTTP Status code incorrect %s", response.getBody()), HttpStatus.CREATED, response.getStatusCode());
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
+        ResponseEntity<String> response = createStore(storeValidRequestFile);
+        assertEquals(String.format("HTTP Status code incorrect %s", response.getBody()), HttpStatus.CREATED, response.getStatusCode());
     }
 
     @Test

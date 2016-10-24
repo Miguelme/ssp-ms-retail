@@ -27,7 +27,7 @@ CREATE TABLE stock (
 CREATE TABLE purchase_order (
     order_id BIGINT NOT NULL AUTO_INCREMENT COMMENT 'The id of the order',
     store_id BIGINT NOT NULL COMMENT 'The id of the store',
-    order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date of the order',
+    order_date DATETIME NOT NULL COMMENT 'The date of the order',
     order_status INTEGER NOT NULL COMMENT 'The status of the order',
     first_name VARCHAR(255) NOT NULL COMMENT 'The purchaser first name',
     last_name  VARCHAR(255) NOT NULL COMMENT 'The purchaser last name',

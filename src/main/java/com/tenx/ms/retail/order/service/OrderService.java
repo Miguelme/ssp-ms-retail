@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,6 +45,7 @@ public class OrderService {
 
         order.setStoreId(storeId);
         order.setStatus(Status.ORDERED);
+        order.setOrderDate(LocalDateTime.now());
 
         List<OrderProductEntity> soldProductsEntities = new ArrayList<>();
         List<OrderProduct> backorderedProducts = new ArrayList<>();
