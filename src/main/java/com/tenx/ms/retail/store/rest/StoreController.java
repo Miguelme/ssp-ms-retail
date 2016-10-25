@@ -5,11 +5,14 @@ import com.tenx.ms.commons.rest.dto.ResourceCreated;
 import com.tenx.ms.retail.store.rest.dto.Store;
 import com.tenx.ms.retail.store.service.StoreService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +43,7 @@ public class StoreController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('NOT_ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResourceCreated<Long> createStore(@ApiParam(name = "store",
                                             value="JSON data of the store to be created",
                                             required = true)
@@ -54,10 +57,16 @@ public class StoreController {
         @ApiResponse(code = 200, message = "The stores were successfully retrieved"),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+            value = "The page number you want to retrieve (0..N)", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+            value = "The number of results per page you want to retrieve", defaultValue = "20"),
+    })
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET)
-    public List<Store> listStores(@RequestParam(value = "name", required = false) Optional<String> name) {
-        return storeService.findAllStores(name);
+    public List<Store> listStores(Pageable pageable, @RequestParam(value = "name", required = false) Optional<String> name) {
+        return storeService.findAllStores(pageable, name);
     }
 
     @ApiOperation(value = "Get Store By Id")

@@ -5,11 +5,14 @@ import com.tenx.ms.commons.rest.dto.ResourceCreated;
 import com.tenx.ms.retail.product.rest.dto.Product;
 import com.tenx.ms.retail.product.service.ProductService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -58,16 +61,22 @@ public class ProductController {
     })
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.GET)
-    public List<Product> listProducts(@PathVariable("storeId") Long storeId) {
-
-        return productService.findProducts(storeId);
-
+    public List<Product> listProducts(Pageable pageable,
+                                      @PathVariable("storeId") Long storeId) {
+        return productService.findProducts(pageable, storeId);
     }
 
-    @ApiOperation(value = "Gets products of a store ")
+    @ApiOperation(value = "Get a product")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully retrieved the product"),
-        @ApiResponse(code = 500, message = "Internal Server Error")
+        @ApiResponse(code = 500, message = "Internal Server Error"),
+        @ApiResponse(code = 404, message = "The store or the product was not found")
+    })
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+            value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+            value = "Number of records per page", defaultValue = "20"),
     })
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{storeId:\\d+}/{productId:\\d+}", method = RequestMethod.GET)

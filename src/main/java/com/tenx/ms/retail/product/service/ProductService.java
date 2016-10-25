@@ -7,6 +7,7 @@ import com.tenx.ms.retail.product.rest.dto.Product;
 import com.tenx.ms.retail.store.domain.StoreEntity;
 import com.tenx.ms.retail.store.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -42,10 +43,10 @@ public class ProductService {
     }
 
 
-    public List<Product> findProducts(Long storeId){
+    public List<Product> findProducts(Pageable pageable, Long storeId){
         Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(storeId);
         storeEntity.orElseThrow( () -> new NoSuchElementException("The store was not found"));
-        List<ProductEntity> productEntities = productRepository.findByStoreStoreId(storeId);
+        List<ProductEntity> productEntities = productRepository.findByStoreStoreId(pageable, storeId).getContent();
         return productEntities.stream().map(PRODUCTCONVERTER::toT1).collect(Collectors.toList());
 
     }
