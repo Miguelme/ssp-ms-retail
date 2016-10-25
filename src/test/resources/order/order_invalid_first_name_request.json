@@ -1,0 +1,12 @@
+{
+    "first_name": "Mig21uel",
+    "last_name": "Fagundez",
+    "email": "miguelfagundez@gmail.com",
+    "phone": "1234567890",
+    "products":[
+        {
+            "product_id": 1,
+            "count": 1
+        }
+    ]
+}
