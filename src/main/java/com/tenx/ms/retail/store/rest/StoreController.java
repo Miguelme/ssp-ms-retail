@@ -39,7 +39,8 @@ public class StoreController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successful creation of a store"),
         @ApiResponse(code = 412, message = "Precondition Failure"),
-        @ApiResponse(code = 500, message = "Internal Server Error")
+        @ApiResponse(code = 500, message = "Internal Server Error"),
+        @ApiResponse(code = 401, message = "Unauthorized")
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
@@ -85,7 +86,8 @@ public class StoreController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "The store was successfully deleted"),
         @ApiResponse(code = 404, message = "Store not found"),
-        @ApiResponse(code = 500, message = "Internal Server Error")
+        @ApiResponse(code = 500, message = "Internal Server Error"),
+        @ApiResponse(code = 401, message = "Unauthorized")
     })
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.DELETE)

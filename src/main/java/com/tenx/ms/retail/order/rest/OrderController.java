@@ -30,7 +30,8 @@ public class OrderController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successful creation of an order"),
         @ApiResponse(code = 412, message = "Precondition Failure"),
-        @ApiResponse(code = 500, message = "Internal Server Error")
+        @ApiResponse(code = 500, message = "Internal Server Error"),
+        @ApiResponse(code = 401, message = "Unauthorized")
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.POST)

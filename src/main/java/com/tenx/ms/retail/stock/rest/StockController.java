@@ -32,7 +32,8 @@ public class StockController {
         @ApiResponse(code = 200, message = "Successful stock update or addition"),
         @ApiResponse(code = 412, message = "Precondition Failure"),
         @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 404, message = "The store or the product were not found")
+        @ApiResponse(code = 404, message = "The store or the product were not found"),
+        @ApiResponse(code = 401, message = "Unauthorized")
     })
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{storeId:\\d+}/{productId:\\d+}", method = RequestMethod.POST)
