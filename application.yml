@@ -1,0 +1,43 @@
+# ATTENTION DEVELOPER:
+#
+# When this service is ready to be built and deployed along with the other microservices, the following must occur
+#
+# 1. Rename this file to "retail.yml"
+# 2. Remove this comment block.
+# 3. Add the file to the ssp-configuration-repo Git repository under the "ms" branch.
+# 4. Start this service to confirm it obtains its configuration.
+#
+
+management.security.enabled: false
+security.basic.enabled: false
+
+server:
+  port: 9494
+  contextPath: /retail
+
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://172.17.0.1:11444/sspms?autoReconnect=true&tinyInt1isBit=false&useSSL=false&zeroDateTimeBehavior=convertToNull&createDatabaseIfNotExist=true
+    username: root
+    password: 'tenxdev'
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+        ddl-auto: validate
+
+oauth2:
+  resource:
+     jwt:
+        keyValue: |
+           -----BEGIN PUBLIC KEY-----
+           MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmhAyldeztFrQGG1gYKe1
+           igqPt9kpoFBzk+66m/rlqUkahwB2aAfJJIUH7iQnKkX9qNTiu1m9ux/qBSMSzHs5
+           ZwN7DLjugwUy0XDt98QTPlLLBJALLibJCz+ag+wiMBW4GF14mHGg3sDjnrc70t3j
+           ouYCZX9T6lgRxo9rH7XaCEzK7W/uPIKZLML0JtTc9cEYkYNvxkb8xPspaXtl7lHi
+           XoX7zGoUO2OOQ2gG4wiYAQt1BbuU9KrCpRPTT0m3XOgPm2yKzSx6Z3/Ev88fcpVe
+           ebku6B9cjBl/tkSSP+s1k4dB4yMrkcWXZBRVaPDp6c0nF+Rsq74R7NUrDPSPy+/D
+           qQIDAQAB
+           -----END PUBLIC KEY-----
